@@ -44,7 +44,7 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
         <Logo className="h-6 mt-2" />
       </SidebarHeader>

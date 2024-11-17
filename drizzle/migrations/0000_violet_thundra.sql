@@ -1,24 +1,24 @@
 CREATE TABLE IF NOT EXISTS "accounts" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid NOT NULL,
 	"name" varchar(256),
 	"balance" double precision,
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "categories" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid NOT NULL,
 	"type" varchar(256),
 	"name" varchar(256),
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "transactions" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
-	"account_id" integer,
-	"category_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid NOT NULL,
+	"account_id" uuid NOT NULL,
+	"category_id" uuid NOT NULL,
 	"balance" double precision,
 	"transaction_date" timestamp,
 	"description" varchar(256),
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY NOT NULL,
 	"name" varchar(256),
 	"username" varchar(256),
 	"email" varchar(256),
