@@ -12,6 +12,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/logo/logo";
 
 const formLoginSchema = z.object({
   email: z.string().email(),
@@ -67,6 +68,8 @@ export default function Page() {
       toast.error(error.message);
       setIsSubmitting(false);
     } else {
+      toast.dismiss();
+      setIsSubmitting(false);
       return router.push("/dashboard");
     }
   };
@@ -85,7 +88,7 @@ export default function Page() {
         data: {
           name: values.name,
           email: values.email,
-          username: values.email.split('@')[0],
+          username: values.email.split("@")[0],
         },
       },
     });
@@ -103,6 +106,7 @@ export default function Page() {
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <Tabs defaultValue="login" className="w-[400px]">
+        <Logo className="h-8 mx-auto mb-5" />
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>
           <TabsTrigger value="register">Register</TabsTrigger>
