@@ -1,28 +1,34 @@
 import { createClient } from "@/lib/supabase/server";
 import { AddAccount } from "./add-account";
+import numeral from "numeral";
 
 export default async function Page() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { error, data } = await supabase.from("accounts").select("*").eq("user_id", user?.id);
+  const { data } = await supabase.from("accounts").select("*").eq("user_id", user?.id);
 
   return (
     <div className="px-5">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex md:items-center justify-between gap-2 mb-8">
         <div>
           <h1 className="font-bold text-xl">Accounts</h1>
           <p className="text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet ea quod</p>
         </div>
-        <AddAccount />
+        <div className="shrink-0">
+          <AddAccount />
+        </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {data?.map((i) => (
-          <div key={i.id} className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 p-5 text-white shadow-sm hover:shadow-lg transition-all flex flex-col gap-2 border border-blue-700">
+          <div
+            key={i.id}
+            className="w-full rounded-xl bg-white p-5 text-black shadow-sm hover:shadow-lg transition-all flex flex-col gap-1 border border-gray-200"
+          >
             <div>{i.name}</div>
-            <div className="font-mono font-bold text-xl">{i.balance}</div>
+            <div className="font-mono font-bold text-lg">{numeral(i.balance).format()}</div>
             {/* <div>Footer</div> */}
           </div>
         ))}

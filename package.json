@@ -25,6 +25,7 @@
     "lucide-react": "^0.456.0",
     "next": "15.0.3",
     "npm": "^10.9.0",
+    "numeral": "^2.0.6",
     "postgres": "^3.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/numeral": "^2.0.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "drizzle-kit": "^0.28.1",
