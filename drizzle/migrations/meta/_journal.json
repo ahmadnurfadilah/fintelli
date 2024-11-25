@@ -15,6 +15,13 @@
       "when": 1731944196522,
       "tag": "0001_fair_the_order",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1732519012507,
+      "tag": "0002_hesitant_speed",
+      "breakpoints": true
     }
   ]
 }

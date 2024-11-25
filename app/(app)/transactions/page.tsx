@@ -48,9 +48,7 @@ export default async function Page() {
     .eq("user_id", user?.id)
     .order("transaction_date", { ascending: false });
 
-  let groupedByDate: GroupedTransactions = {
-    "": [],
-  };
+  let groupedByDate: GroupedTransactions;
   if (!error && data && data?.length > 0) {
     groupedByDate = data.reduce((acc, transaction) => {
       const date = transaction.transaction_date;
@@ -60,6 +58,8 @@ export default async function Page() {
       acc[date].push(transaction);
       return acc;
     }, {} as GroupedTransactions);
+  } else {
+    groupedByDate = {};
   }
 
   return (

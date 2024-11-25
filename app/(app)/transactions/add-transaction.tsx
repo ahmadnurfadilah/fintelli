@@ -125,48 +125,46 @@ function AddTransactionForm({ user, className, onClose }: React.ComponentProps<"
     setIsSubmitting(true);
     toast.loading("Creating...");
 
-    let category = null;
+    let categoryId = null;
     if (type == "income") {
-      category = values.incomeCategory;
+      categoryId = values.incomeCategory;
     } else if (type == "expense") {
-      category = values.expenseCategory;
+      categoryId = values.expenseCategory;
     }
 
-    const supabase = createClient();
-    const { data } = await supabase.from("accounts").select("balance").eq("id", values.account);
+    await fetch("/api/transaction/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type,
+        user_id: user.id,
+        account_id: values.account,
+        category_id: categoryId,
+        amount: values.amount,
+        transaction_date: values.date,
+        description: values.description,
+        account: accounts.find((o) => o.id == values.account).name,
+        category: categories.find((o) => o.id == categoryId).name,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        toast.dismiss();
+        if (res.success) {
+          onClose();
+          toast.success(res.message);
+          router.refresh();
+        } else {
+          toast.error(res.message);
+        }
+      })
+      .catch((err) => {
+        toast.dismiss();
+        toast.error(err.message);
+      });
 
-    let balance;
-    if (type == "income") {
-      balance = (data && data.length > 0 ? data[0].balance : 0) + parseInt(values.amount);
-    } else if (type == "expense") {
-      balance = (data && data.length > 0 ? data[0].balance : 0) - parseInt(values.amount);
-    }
-
-    await supabase.from("accounts").update({ balance }).eq("id", values.account);
-
-    const { error } = await supabase
-      .from("transactions")
-      .insert([
-        {
-          type,
-          user_id: user.id,
-          account_id: values.account,
-          category_id: category,
-          amount: type == 'income' ? parseInt(values.amount) : 0 - parseInt(values.amount),
-          transaction_date: values.date,
-          description: values.description,
-        },
-      ])
-      .select();
-
-    toast.dismiss();
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Success creating new transaction!");
-      onClose();
-      router.refresh();
-    }
     setIsSubmitting(false);
   };
 
