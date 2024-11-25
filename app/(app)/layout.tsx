@@ -1,6 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { createClient } from "@/lib/supabase/server";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import Account from "./account";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -17,7 +18,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <SidebarTrigger />
           <Account user={user} />
         </div>
-        {children}
+        <NuqsAdapter>
+          {children}
+        </NuqsAdapter>
       </main>
     </SidebarProvider>
   );
