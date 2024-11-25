@@ -1,4 +1,4 @@
-import { doublePrecision, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { date, doublePrecision, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid().notNull().primaryKey(),
@@ -31,7 +31,7 @@ export const transactions = pgTable("transactions", {
   category_id: uuid().notNull().references(() => categories.id),
   type: varchar({ length: 256, enum: ["expense", "income"] }),
   amount: doublePrecision(),
-  transaction_date: timestamp(),
+  transaction_date: date(),
   description: varchar({ length: 256 }),
   created_at: timestamp().defaultNow(),
 });

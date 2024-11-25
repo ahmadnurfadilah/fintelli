@@ -95,6 +95,7 @@ function AddAccountForm({ className, onClose }: React.ComponentProps<"form"> & {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       const { error } = await supabase.from("accounts").insert([{ user_id: user.id, name, balance }]).select();
+
       toast.dismiss();
       if (error) {
         toast.error(error.message);

@@ -2,16 +2,19 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -72,14 +75,13 @@ const formSchema = z.object({
   incomeCategory: z.string(),
   expenseCategory: z.string(),
   amount: z.string(),
-  date: z.string(),
+  date: z.date(),
   description: z.string(),
 });
 
 const typeOptions = [
   { value: "income", label: "Income" },
   { value: "expense", label: "Expense" },
-  { value: "transfer", label: "Transfer" },
 ];
 
 function AddTransactionForm({ user, className, onClose }: React.ComponentProps<"form"> & { onClose: () => void; user: any }) {
@@ -112,27 +114,66 @@ function AddTransactionForm({ user, className, onClose }: React.ComponentProps<"
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      account: "",
+      amount: "",
       incomeCategory: "",
       expenseCategory: "",
-      amount: "",
-      date: "",
-      description: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
     setIsSubmitting(true);
     toast.loading("Creating...");
-    console.log(values);
-    onClose();
-    router.refresh();
-  }
+
+    let category = null;
+    if (type == "income") {
+      category = values.incomeCategory;
+    } else if (type == "expense") {
+      category = values.expenseCategory;
+    }
+
+    const supabase = createClient();
+    const { data } = await supabase.from("accounts").select("balance").eq("id", values.account);
+
+    let balance;
+    if (type == "income") {
+      balance = (data && data.length > 0 ? data[0].balance : 0) + parseInt(values.amount);
+    } else if (type == "expense") {
+      balance = (data && data.length > 0 ? data[0].balance : 0) - parseInt(values.amount);
+    }
+
+    await supabase.from("accounts").update({ balance }).eq("id", values.account);
+
+    const { error } = await supabase
+      .from("transactions")
+      .insert([
+        {
+          type,
+          user_id: user.id,
+          account_id: values.account,
+          category_id: category,
+          amount: type == 'income' ? parseInt(values.amount) : 0 - parseInt(values.amount),
+          transaction_date: values.date,
+          description: values.description,
+        },
+      ])
+      .select();
+
+    toast.dismiss();
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Success creating new transaction!");
+      onClose();
+      router.refresh();
+    }
+    setIsSubmitting(false);
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("grid items-start gap-3", className)}>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3">
           {typeOptions.map((i) => (
             <button
               type="button"
@@ -237,9 +278,25 @@ function AddTransactionForm({ user, className, onClose }: React.ComponentProps<"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button variant={"outline"} className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
@@ -267,7 +324,7 @@ function AddTransactionForm({ user, className, onClose }: React.ComponentProps<"
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="shadcn" {...field} />
+                <Textarea placeholder="Notes..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
