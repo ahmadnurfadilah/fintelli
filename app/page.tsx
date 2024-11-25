@@ -64,9 +64,9 @@ export default function Home() {
               <span>Start Free Trial</span>
               <ArrowRight className="h-5 w-5" />
             </Link>
-            <button className="flex items-center justify-center space-x-2 bg-white text-rose-600 px-8 py-4 rounded-lg border-2 border-rose-600 hover:bg-rose-50 transition-colors">
+            <a href="https://youtu.be/fvDVqnt_zus" target="_blank" className="flex items-center justify-center space-x-2 bg-white text-rose-600 px-8 py-4 rounded-lg border-2 border-rose-600 hover:bg-rose-50 transition-colors">
               <span>Watch Demo</span>
-            </button>
+            </a>
           </div>
         </div>
 

@@ -47,7 +47,7 @@ export function AppSidebar() {
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2 pl-2">
-          <Bot className="h-6 w-6 text-indigo-600" />
+          <Bot className="h-6 w-6 text-rose-600" />
           <span className="text-lg font-bold text-black">Fintelli</span>
         </Link>
       </SidebarHeader>

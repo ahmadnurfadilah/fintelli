@@ -12,7 +12,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/lib/supabase/client";
-import Logo from "@/components/logo/logo";
+import Link from "next/link";
+import { Bot } from "lucide-react";
 
 const formLoginSchema = z.object({
   email: z.string().email(),
@@ -106,7 +107,10 @@ export default function Page() {
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <Tabs defaultValue="login" className="w-[400px]">
-        <Logo className="h-8 mx-auto mb-5" />
+        <Link href="/dashboard" className="flex items-center justify-center gap-2 mb-5">
+          <Bot className="h-6 w-6 text-rose-600" />
+          <span className="text-lg font-bold text-black">Fintelli</span>
+        </Link>
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>
           <TabsTrigger value="register">Register</TabsTrigger>
