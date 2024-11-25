@@ -1,4 +1,4 @@
-import { date, doublePrecision, pgTable, timestamp, uuid, varchar, vector } from "drizzle-orm/pg-core";
+import { date, doublePrecision, jsonb, pgTable, text, timestamp, uuid, varchar, vector } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid().notNull().primaryKey(),
@@ -33,6 +33,8 @@ export const transactions = pgTable("transactions", {
   amount: doublePrecision(),
   transaction_date: date(),
   description: varchar({ length: 256 }),
-  embedding: vector({ dimensions: 768 }),
   created_at: timestamp().defaultNow(),
+  embedding: vector({ dimensions: 768 }),
+  content: text(),
+  metadata: jsonb(),
 });

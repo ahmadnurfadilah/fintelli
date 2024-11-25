@@ -1,4 +1,4 @@
-import { Bot, LayoutDashboard, ReceiptText, Settings, WalletCards } from "lucide-react";
+import { Bot, LayoutDashboard, ReceiptText, WalletCards } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -35,11 +35,11 @@ const items = [
     url: "/assistant",
     icon: Bot,
   },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
-  },
+  // {
+  //   title: "Settings",
+  //   url: "/settings",
+  //   icon: Settings,
+  // },
 ];
 
 export function AppSidebar() {

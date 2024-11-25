@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^1.0.4",
     "@hookform/resolvers": "^3.9.1",
     "@langchain/community": "^0.3.15",
     "@langchain/core": "^0.3.18",
@@ -23,6 +24,7 @@
     "@radix-ui/react-tooltip": "^1.1.4",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.46.1",
+    "ai": "^4.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -30,6 +32,7 @@
     "i": "^0.3.7",
     "langchain": "^0.3.6",
     "lucide-react": "^0.456.0",
+    "marked": "^15.0.2",
     "next": "15.0.3",
     "npm": "^10.9.0",
     "numeral": "^2.0.6",
@@ -46,10 +49,12 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^20",
     "@types/numeral": "^2.0.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-lottie": "^1.2.10",
     "drizzle-kit": "^0.28.1",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
