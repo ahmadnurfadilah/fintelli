@@ -1,12 +1,14 @@
 "use client";
 
 import { ArrowRight, Bot, LineChart, MessageSquare, PieChart, User, Wallet } from "lucide-react";
+import animationData from "../public/lotties/meditation.json";
+import Lottie from "react-lottie";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
       {/* Hero Section */}
       <header className="relative overflow-hidden">
         <nav className="container mx-auto px-6 py-4">
@@ -16,9 +18,15 @@ export default function Home() {
               <span className="text-xl font-bold text-gray-900">Fintelli</span>
             </div>
             <div className="hidden md:flex space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-rose-600 transition-colors">Features</a>
-              <a href="#how-it-works" className="text-gray-600 hover:text-rose-600 transition-colors">How it Works</a>
-              <a href="#" className="text-gray-600 hover:text-rose-600 transition-colors" onClick={() => toast.success("It's free until the end of the year")}>Pricing</a>
+              <a href="#features" className="text-gray-600 hover:text-rose-600 transition-colors">
+                Features
+              </a>
+              <a href="#how-it-works" className="text-gray-600 hover:text-rose-600 transition-colors">
+                How it Works
+              </a>
+              <a href="#" className="text-gray-600 hover:text-rose-600 transition-colors" onClick={() => toast.success("It's free until the end of the year")}>
+                Pricing
+              </a>
             </div>
             <Link href="/auth" className="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 transition-colors">
               Get Started
@@ -27,14 +35,32 @@ export default function Home() {
         </nav>
 
         <div className="container mx-auto px-6 pt-20 pb-24 text-center">
+          <div className="w-1/2 md:w-1/3 relative mx-auto mb-10">
+            <Lottie
+              options={{
+                loop: true,
+                autoplay: true,
+                animationData: animationData,
+                rendererSettings: {
+                  preserveAspectRatio: "xMidYMid slice",
+                },
+              }}
+              style={{ width: "100%", aspectRatio: "3/2" }}
+            />
+          </div>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-8">
-            Your Personal Finance Manager<br/><span className="text-rose-600">Powered by AI</span>
+            Your Personal Finance Manager
+            <br />
+            <span className="text-rose-600">Powered by AI</span>
           </h1>
           <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
             Track your spending, get personalized financial advice, and achieve your money goals with our intelligent financial assistant.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/auth" className="flex items-center justify-center space-x-2 bg-rose-600 text-white px-8 py-4 rounded-lg hover:bg-rose-700 transition-colors">
+            <Link
+              href="/auth"
+              className="flex items-center justify-center space-x-2 bg-rose-600 text-white px-8 py-4 rounded-lg hover:bg-rose-700 transition-colors"
+            >
               <span>Start Free Trial</span>
               <ArrowRight className="h-5 w-5" />
             </Link>
@@ -50,26 +76,24 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-20 bg-white" id="features">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-16">
-            Powerful Features for Your Financial Success
-          </h2>
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-16">Powerful Features for Your Financial Success</h2>
           <div className="grid md:grid-cols-3 gap-12">
             {[
               {
                 icon: <LineChart className="h-8 w-8 text-rose-600" />,
                 title: "Smart Analytics",
-                description: "Get detailed insights into your spending patterns and financial habits."
+                description: "Get detailed insights into your spending patterns and financial habits.",
               },
               {
                 icon: <Bot className="h-8 w-8 text-rose-600" />,
                 title: "AI Assistant",
-                description: "Chat with our AI to get personalized financial advice and recommendations."
+                description: "Chat with our AI to get personalized financial advice and recommendations.",
               },
               {
                 icon: <Wallet className="h-8 w-8 text-rose-600" />,
                 title: "Budget Tracking",
-                description: "Set and monitor budgets with real-time updates and notifications."
-              }
+                description: "Set and monitor budgets with real-time updates and notifications.",
+              },
             ].map((feature, index) => (
               <div key={index} className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="mb-4">{feature.icon}</div>
@@ -84,32 +108,28 @@ export default function Home() {
       {/* How it Works */}
       <section className="py-20 bg-gray-50" id="how-it-works">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-16">
-            How Fintelli Works
-          </h2>
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-16">How Fintelli Works</h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               {[
                 {
                   icon: <User className="h-6 w-6 text-rose-600" />,
                   title: "Sign Up",
-                  description: "Create your Fintelli account in minutes."
+                  description: "Create your Fintelli account in minutes.",
                 },
                 {
                   icon: <PieChart className="h-6 w-6 text-rose-600" />,
                   title: "Input Data",
-                  description: "Track your income and expenses effortlessly."
+                  description: "Track your income and expenses effortlessly.",
                 },
                 {
                   icon: <MessageSquare className="h-6 w-6 text-rose-600" />,
                   title: "Get AI Insights",
-                  description: "Chat with our AI assistant to get personalized financial advice and recommendations."
-                }
+                  description: "Chat with our AI assistant to get personalized financial advice and recommendations.",
+                },
               ].map((step, index) => (
                 <div key={index} className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center">
-                    {step.icon}
-                  </div>
+                  <div className="flex-shrink-0 w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center">{step.icon}</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
                     <p className="text-gray-600">{step.description}</p>
@@ -132,9 +152,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 bg-rose-600">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            Ready to Transform Your Financial Future?
-          </h2>
+          <h2 className="text-3xl font-bold text-white mb-8">Ready to Transform Your Financial Future?</h2>
           <p className="text-xl text-rose-100 mb-12 max-w-2xl mx-auto">
             Join thousands of users who are already managing their finances smarter with Fintelli.
           </p>
@@ -147,9 +165,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 pb-8">
         <div className="container mx-auto px-6">
-          <div className="border-t border-gray-800 pt-8 text-sm text-center">
-            © {new Date().getFullYear()} Fintelli. All rights reserved.
-          </div>
+          <div className="border-t border-gray-800 pt-8 text-sm text-center">© {new Date().getFullYear()} Fintelli. All rights reserved.</div>
         </div>
       </footer>
     </div>
